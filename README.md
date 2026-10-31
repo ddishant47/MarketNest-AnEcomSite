@@ -57,7 +57,7 @@ E-Commerce-Web-App/
 
 ---
 
-# ⚙️ Installation & Setup
+# ⚙️ Installation & SetupS
 
 ## 1️⃣ Clone the Repository
 
