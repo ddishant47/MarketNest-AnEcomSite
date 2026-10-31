@@ -101,14 +101,37 @@ PORT=5000
 ### Start Backend Server
 
 ```bash id="jlwm5"
-node server.js
+cd Backend
+npm start
 ```
 
 ### Start Frontend
 
 ```bash id="jlwm6"
+cd frontend
 npm run dev
 ```
+
+## 🚀 Deploying to Vercel
+
+The frontend and Express backend must both be deployed. Vercel's frontend URL cannot
+reach a backend running on your computer.
+
+1. Deploy the `Backend` folder to a Node.js host that supports long-running Express
+   servers. Use `npm start` as the start command and configure any required backend
+   environment variables, such as `MONGO_URI`.
+2. In Vercel, set the project root to `frontend` and configure the build command as
+   `npm run build` and the output directory as `dist`. The `frontend/vercel.json`
+   rewrite serves the React app for direct visits to routes such as `/login` and
+   `/admin`.
+3. In the Vercel project's **Settings → Environment Variables**, set
+   `VITE_API_URL` to the public backend origin, for example
+   `https://your-backend.example.com` (without a trailing slash or `/api`).
+4. Redeploy the frontend after setting the variable. Vite embeds `VITE_*`
+   variables at build time.
+
+For local development, `frontend/.env.example` shows the local API URL. Do not use
+`localhost` as the Vercel value; it refers to the visitor's own computer.
 
 ---
 
@@ -165,4 +188,3 @@ Contributions and feature suggestions are welcome.
 # 👨‍💻 Author
 
 Developed by **Dishant Singh** 🚀
-

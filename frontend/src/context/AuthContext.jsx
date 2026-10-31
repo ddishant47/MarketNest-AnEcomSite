@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
+const API_URL = (import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : '')).replace(/\/+$/, '');
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -16,8 +17,15 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (username, password) => {
+        if (!API_URL) {
+            return {
+                success: false,
+                message: 'The API URL is not configured. Set VITE_API_URL in your Vercel project settings to your deployed backend URL.'
+            };
+        }
+
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+            const res = await fetch(`${API_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -33,8 +41,11 @@ export const AuthProvider = ({ children }) => {
             } else {
                 return { success: false, message: data.message || 'Login failed' };
             }
-        } catch (err) {
-            return { success: false, message: 'Server error' };
+        } catch {
+            return {
+                success: false,
+                message: 'Unable to reach the server. Check that the backend is deployed and VITE_API_URL points to it.'
+            };
         }
     };
 

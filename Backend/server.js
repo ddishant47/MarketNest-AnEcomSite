@@ -28,8 +28,10 @@ app.use("/api", orderRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", authRoutes);
 
-app.listen(5000 ,() =>{
-    console.log("server started on port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () =>{
+    console.log(`server started on port ${PORT}`);
 
 });
 app.get("/products", (req, res) => {
@@ -38,4 +40,3 @@ app.get("/products", (req, res) => {
     { name: "Phone", price: 20000 }
   ]);
 });
-
